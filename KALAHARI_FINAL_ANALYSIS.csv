@@ -1,0 +1,46 @@
+Filename,Timestamp,Datetime,Species,SpeciesConfidence
+1 (308).jpg,,,buffalo,0.9971
+1 (308).jpg,,,other,0.6756
+1 (308).jpg,,,other,0.9916
+1 (308).jpg,,,other,0.8989
+1 (308).jpg,,,guineafowl,0.6925
+1 (308).jpg,,,other,0.9666
+1 (308).jpg,,,other,0.9455
+1 (308).jpg,,,other,0.8407
+1 (308).jpg,,,other,0.394
+1 (308).jpg,,,other,0.4452
+1 (317).jpg,,,buffalo,0.9998
+1 (356).jpg,,,wildebeest,0.8021
+1 (356).jpg,,,other,0.8574
+1 (365).jpg,,,buffalo,0.9972
+1 (372).jpg,,,buffalo,0.9297
+1 (373).jpg,,,buffalo,0.9535
+1 (373).jpg,,,buffalo,0.5717
+1 (373).jpg,,,wildebeest,0.8567
+1 (373).jpg,,,buffalo,0.9263
+1 (373).jpg,,,wildebeest,0.9856
+1 (373).jpg,,,wildebeest,0.8698
+1 (376).jpg,,,buffalo,0.9959
+1 (376).jpg,,,buffalo,1.0
+1 (376).jpg,,,buffalo,1.0
+1 (376).jpg,,,warthog,0.4943
+1 (376).jpg,,,warthog,0.583
+1 (376).jpg,,,buffalo,0.9557
+1 (376).jpg,,,buffalo,0.9764
+2 (34).jpg,,,other,0.9943
+2 (34).jpg,,,other,0.9862
+2 (53).jpg,,,other,0.9206
+2 (62).jpg,,,other,0.9875
+2 (62).jpg,,,other,0.9999
+2 (63).jpg,,,other,0.9991
+2 (63).jpg,,,other,1.0
+2 (66).jpg,,,other,0.9998
+2 (71).jpg,,,wildebeest,0.6418
+2 (71).jpg,,,other,0.9253
+2 (71).jpg,,,other,0.9667
+2 (71).jpg,,,other,0.9679
+2 (72).jpg,,,warthog,0.5328
+D31S039.png,,,wildebeest,0.7069
+D32S035.JPG,2013:11:23 12:48:55,2013-11-23 12:48:55,guineafowl,0.577
+D33S006.jpg,,,other,0.9679
+D44S007.jpg,,,other,0.8691
