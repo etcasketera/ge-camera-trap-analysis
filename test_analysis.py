@@ -1,20 +1,45 @@
-import torch
-from PytorchWildlife.models import classification as pw_classification
-from PytorchWildlife import utils as pw_utils
-from PIL import Image
+from ultralytics import YOLO
+import os
 
-# print(dir(pw_classification))
-# 1. Initialize the model (Weights download automatically on first run)
-# DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-model = pw_classification.AI4GAmazonRainforest()
+def train_kalahari_model():
+    # 1. Load a pre-trained YOLOv8 classification model
+    # 'yolov8n-cls.pt' is the 'Nano' version—very fast and great for starters
+    model = YOLO('yolov8n.pt') 
 
-# 2. Load your image
-img_path = "animal_crops/crop_3_D33S006.jpg"
+    # 2. Define your dataset path
+    # The folder should contain 'train' and 'val' subdirectories
+    dataset_path = os.path.abspath("")
 
-# 3. Perform Inference
-# Pytorch-Wildlife's internal method handles resizing and tensor conversion
-results = model.single_image_classification(img_path)
+    print(f">>> Starting training on dataset at: {dataset_path}")
 
-# 4. View Results
-# 'results' usually contains the top predicted label and confidence score
-print(results)
+    # 3. Start Fine-Tuning
+    results = model.train(
+        data='./yolo_dataset/kalahari-wild.yaml',    # Path to your data
+        epochs=10,            # Number of times the model sees the whole dataset
+        imgsz=224,            # SpeciesNet standard size
+        batch=5,             # Number of images processed at once (adjust based on GPU VRAM)
+        name='Kalahari_Classifier_v1' # Name of the output folder
+    )
+
+    # 4. Export the model for your workflow script
+    # This will create 'kalahari_best.pt'
+    success = model.export(format='pt')
+    print(f">>> Training Complete! Model saved to runs/classify/Kalahari_Classifier_v1/weights/best.pt")
+
+
+def classification_train():
+# Load the classification model
+    model = YOLO('yolov8n-cls.pt') 
+
+    # Train using the folder path
+    results = model.train(
+        data='./kalahari_classification_dataset', # Root folder of the splits
+        epochs=50,
+        imgsz=224,
+        batch=16,
+        name='Kalahari_Classifier_v1',
+        augment=True
+    )
+
+if __name__ == "__main__":
+    classification_train()

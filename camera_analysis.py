@@ -93,7 +93,7 @@ def load_megadetector():
 # --- 2. UPDATED SPECIES IDENTIFICATION ---
 def run_species_id(folder_path):
     print("\n>>> Starting SpeciesNet Identification...")
-    
+    kalahari_locations = ['BWA', 'NAM', 'ZAF']
     # Define paths
     manifest_path = os.path.join("animal_crops", "species_ready_manifest.csv")
     label_path = resource_path(os.path.join("models", "labels.txt"))
@@ -116,13 +116,13 @@ def run_species_id(folder_path):
         
         try:
             # Pre-process crop for SpeciesNet (Standard 224x224 ResNet/EfficientNet input)
-            results = model.single_image_classification(crop_path)
+            results = model.single_image_classification(crop_path, kalahari_locations)
 
             species_results.append({
                 "Species": results['prediction'],
                 "SpeciesConfidence": round(results['confidence'], 4)
             })
-        except Exception:
+        except Exception as e:
             print(f"DEBUG: Error on {crop_path}: {str(e)}")
             species_results.append({"Species": "Processing_Error", "SpeciesConfidence": 0})
 
