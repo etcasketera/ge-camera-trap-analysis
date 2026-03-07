@@ -11,6 +11,7 @@ split_ratios = (0.8, 0.1, 0.1)  # Train, Val, Test
 
 # Load the data
 df = pd.read_csv(csv_path)
+df['CommonName'] = df['CommonName'].fillna('unknown')
 
 # 1. Handle Rare Classes
 # If a class has only 1 image, we can't "stratify" it into 3 splits.

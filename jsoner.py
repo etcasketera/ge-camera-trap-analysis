@@ -63,4 +63,6 @@ class_map = {
     'spotted hyaena': 49, 'struthioniformes order': 50, 'tragelaphus species': 51, 
     'vulpes species': 52, 'weasel family': 53
 }
-process_and_map_json('speciesoutput.json', class_map, 'Kalahari_Training_Data.csv')
+
+if __name__ == "__main__":
+    process_and_map_json('predictions.json', class_map, 'Kalahari_Training_Data.csv')

@@ -11,6 +11,7 @@ from ultralytics import YOLO
 import numpy as np
 from PytorchWildlife.models import classification as pw_classification
 from PytorchWildlife import utils as pw_utils
+import tensorflow as tf
 
 # --- 1. RESOURCE PATH HELPER ---
 def resource_path(relative_path):
@@ -92,40 +93,43 @@ def load_megadetector():
 #         return {idx: line.strip() for idx, line in enumerate(f.readlines())}
 # --- 2. UPDATED SPECIES IDENTIFICATION ---
 def run_species_id(folder_path):
-    print("\n>>> Starting SpeciesNet Identification...")
-    kalahari_locations = ['BWA', 'NAM', 'ZAF']
-    # Define paths
+    print("\n>>> Starting Custom Kalahari Identification...")
+    
+    # 1. Define paths to your specific model
+    model_path = os.path.join("models", "kalahari_species_model.keras")
+    label_path = os.path.join("models", "labels.txt")
     manifest_path = os.path.join("animal_crops", "species_ready_manifest.csv")
-    label_path = resource_path(os.path.join("models", "labels.txt"))
-    
-    if not os.path.exists(manifest_path):
-        print("!!! Error: Manifest not found."); return
 
-    # Load Data and Model
+    # 2. Load your Labels into a list
+    with open(label_path, "r") as f:
+        labels = [line.strip() for line in f.readlines()]
+
+    # 3. Load your trained Model
+    custom_model = tf.keras.models.load_model(model_path)
+    
     df = pd.read_csv(manifest_path)
-    # model = load_species_classifier() # From previous step
-    # labels_dict = load_labels(label_path)
-    model = pw_classification.AI4GSnapshotSerengeti()
-    
-    if model is None: return
-
     species_results = []
 
     for index, row in df.iterrows():
         crop_path = row['CropPath']
-        
         try:
-            # Pre-process crop for SpeciesNet (Standard 224x224 ResNet/EfficientNet input)
-            results = model.single_image_classification(crop_path, kalahari_locations)
+            # 4. Custom Pre-processing (Match your training steps!)
+            img = tf.keras.utils.load_img(crop_path, target_size=(224, 224))
+            img_array = tf.keras.utils.img_to_array(img)
+            img_array = np.expand_dims(img_array, axis=0)
+            img_array = img_array / 255.0  # Or your specific preprocess_input
+
+            # 5. Run Prediction
+            preds = custom_model.predict(img_array, verbose=0)
+            pred_idx = np.argmax(preds[0])
+            confidence = np.max(preds[0])
 
             species_results.append({
-                "Species": results['prediction'],
-                "SpeciesConfidence": round(results['confidence'], 4)
+                "Species": labels[pred_idx],
+                "SpeciesConfidence": round(float(confidence), 4)
             })
         except Exception as e:
-            print(f"DEBUG: Error on {crop_path}: {str(e)}")
-            species_results.append({"Species": "Processing_Error", "SpeciesConfidence": 0})
-
+            species_results.append({"Species": "Error", "SpeciesConfidence": 0})
     # Merge and Finalize Dataframe
     species_df = pd.DataFrame(species_results)
     final_df = pd.concat([df, species_df], axis=1)
