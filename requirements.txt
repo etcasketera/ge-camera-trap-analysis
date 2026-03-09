@@ -7,3 +7,6 @@ PytorchWildlife
 lightning
 omegaconf
 speciesnet
+tensorflow
+plotly
+streamlit
