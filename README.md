@@ -29,8 +29,8 @@ The project is currently designed to run on a **local machine**, with future pla
 
 Ensure you have Python installed and the following dependencies from `requirements.txt`:
 
-```text
-pandas, torch, pillow, ultralytics, numpy, tensorflow, plotly, streamlit, PytorchWildlife
+```bash
+pip install -r requirements.txt
 
 ```
 
