@@ -36,11 +36,18 @@ pip install -r requirements.txt
 
 ### Usage
 
-1. **Run Analysis**: Execute `camera_analysis.py` to process a folder of images. This will generate `megadetector_results.csv` and a folder of `animal_crops`.
+1. **Run Analysis**: 
+```bash
+python camera_analysis.py
+```
+Select the folder of images. The analysis will produce a .csv that will be used as the base of the dashboard.
 2. **View Dashboard**: Run the Streamlit application:
 ```bash
 streamlit run camera_app.py
-
+```
+Ensure that the .csv loaded by the dashboard is the correct .csv
+```bash
+st.session_state.camera_df = pd.read_csv('KALAHARI_FINAL_ANALYSIS.csv')
 ```
 
 

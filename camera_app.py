@@ -128,6 +128,16 @@ from datetime import datetime
         
 #         st.session_state.camera_df = temp_df
 #         status.update(label="Analysis Complete!", state="complete")
+
+
+model_path = os.path.join("models", "kalahari_species_model_unbalanced.keras")
+label_path = os.path.join("models", "labels.txt")
+
+with open(label_path, "r") as f:
+    labels = [line.strip() for line in f.readlines()]
+
+custom_model = tf.keras.models.load_model(model_path)
+
 def calculate_pillar_2(df):
     """Species Diversity (Hill q=1) - Exponential of Shannon Index"""
     counts = df['Species'].value_counts()
@@ -140,7 +150,7 @@ st.session_state.camera_df = pd.read_csv('KALAHARI_FINAL_ANALYSIS.csv')
 if st.session_state.camera_df is not None:
     df = st.session_state.camera_df
     print(df.head())
-    df['Timestamp'] = pd.to_datetime(df['Timestamp'], format = '%Y:%m:%d %H:%M:%S',errors="coerce")
+    df['Timestamp'] = pd.to_datetime(df['Datetime'], format = '%Y-%m-%d %H:%M:%S',errors="coerce")
     df['Hour'] = df['Timestamp'].dt.hour
     print(df.head())
     # Filtering
@@ -189,7 +199,7 @@ if st.session_state.camera_df is not None:
         num_cols = 4
         rows = st.columns(num_cols)
         # Show the most recent or highest confidence detections
-        display_df = filtered_df.sort_values(by="SpeciesConfidence", ascending=False).head(100)
+        display_df = filtered_df.head(100)
         
         for idx, (_, row) in enumerate(display_df.iterrows()):
             with rows[idx % num_cols]:
